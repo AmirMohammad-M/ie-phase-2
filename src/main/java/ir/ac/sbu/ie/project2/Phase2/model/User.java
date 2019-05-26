@@ -1,31 +1,40 @@
 package ir.ac.sbu.ie.project2.Phase2.model;
 
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Table(name = "auth_user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "auth_user_id")
     private int id;
 
+    @NotNull(message="First name field can't be empty.")
     @Column(name = "first_name")
     private String name;
 
+    @NotNull(message="Last name field can't be empty.")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotNull(message="Email field can't be empty.")
+    @Email(message = "Email is invalid.")
     @Column(name = "email")
     private String email;
 
+    @NotNull(message="Password field can't be empty.")
+    @Length(min=5, message="Password should be at least 5 characters.")
     @Column(name = "password")
     private String password;
 
-    @Column(name = "mobile")
-    private String mobile;
 
     @Column(name = "status")
     private String status;
@@ -33,6 +42,9 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "auth_user_role", joinColumns = @JoinColumn(name = "auth_user_id"), inverseJoinColumns = @JoinColumn(name = "auth_role_id"))
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<Case> cases;
 
     public int getId() {
         return id;
@@ -74,14 +86,6 @@ public class User {
         this.password = password;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -98,5 +102,11 @@ public class User {
         this.roles = roles;
     }
 
+    public Set<Case> getCases() {
+        return cases;
+    }
 
+    public void setCases(Set<Case> cases) {
+        this.cases = cases;
+    }
 }

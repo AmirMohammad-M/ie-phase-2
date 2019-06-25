@@ -11,6 +11,13 @@ import org.hibernate.validator.constraints.Length;
 @Entity
 @Table(name = "auth_user")
 public class User {
+    public User() {
+    }
+    public User(String name, String lastName, String email) {
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,8 +1,5 @@
 package ir.ac.sbu.ie.project2.Phase2.service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
 import ir.ac.sbu.ie.project2.Phase2.model.Role;
 import ir.ac.sbu.ie.project2.Phase2.model.User;
 import ir.ac.sbu.ie.project2.Phase2.repository.RoleRepository;
@@ -11,15 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 @Service
 public class UserServiceImp implements UserService {
 	
 	@Autowired
 	BCryptPasswordEncoder encoder;
 	@Autowired
-	RoleRepository roleRepository;
+    RoleRepository roleRepository;
 	@Autowired
-	UserRepository userRepository;
+    UserRepository userRepository;
 
 	@Override
 	public void saveUser(User user) {
@@ -39,4 +39,10 @@ public class UserServiceImp implements UserService {
 	public User findUserByEmail(String email) {
 		return userRepository.findUserByEmail(email);
 	}
+
+	@Override
+	public void updateUserByEmail(String email, String name, String lastName, String password) {
+		userRepository.updateUserByEmail(email, name, lastName, encoder.encode(password));
+	}
+
 }

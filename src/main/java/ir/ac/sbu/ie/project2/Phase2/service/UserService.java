@@ -6,4 +6,5 @@ public interface UserService {
 	void saveUser(User user);
 	boolean isUserAlreadyPresent(User user);
 	User findUserByEmail(String email);
+	void updateUserByEmail(String email, String name, String lastName, String password);
 }
